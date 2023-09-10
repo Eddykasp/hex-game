@@ -1,22 +1,10 @@
 use bevy::{prelude::*, sprite::MaterialMesh2dBundle};
 
-struct HelloPlugin;
-
 #[derive(Component)]
 struct HexTile;
 
 #[derive(Component)]
 pub struct AxialCoordinate{q: i32, r: i32,}
-
-impl Plugin for HelloPlugin {
-  fn build(&self, app: &mut App) {
-      app.add_systems(Update, hello_world);
-  }
-}
-
-fn hello_world() {
-  println!("hello world!");
-}
 
 fn main() {
     App::new()
@@ -39,11 +27,11 @@ fn create_map(
     for r in -3..3 {
       commands.spawn((
         HexTile, 
-        AxialCoordinate {q: q, r: r}, 
+        AxialCoordinate {q, r}, 
         MaterialMesh2dBundle{
           mesh: meshes.add(shape::RegularPolygon::new(hexutils::inner_radius(), 6).into()).into(),
           material: materials.add(ColorMaterial::from(Color::GREEN)),
-          transform: hexutils::hex_to_pixel(&AxialCoordinate {q: q, r: r}),
+          transform: hexutils::hex_to_pixel(&AxialCoordinate {q, r}),
           ..default()
         }));
     }
